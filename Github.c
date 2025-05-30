@@ -1,102 +1,187 @@
-//Biblioteca
+//Biblioteca 
+
 #include <stdio.h>
+#include <stdlib.h>
 
-int totalquartos = 10;
-int quartos[10]; 
+typedef struct {
+    int id;
+    int reservado;
+} Quarto;
 
-    // Para inicializar os quartos
-    int inicializarquartos() {
-    int i;
-    for (i = 0; i < totalquartos; i++) {
-    quartos[i] = 0;
-    }
-    return 0;
-}
+Quarto quartos[10];
+int totalQuartos = 10;
 
-// Para reservar um quarto
-int reservarquarto() {
-    int numero;
-    printf("Digite o número do quarto para reservar (1-%d): ", totalquartos);
-    scanf("%d", &numero);
 
-    if (numero < 1 || numero > totalquartos)
-    {
-    printf("Quarto inválido!\n");
-    } 
-    else if (quartos[numero - 1] == 1) 
-    {
-    printf("Quarto já está reservado!\n");
-    } 
-    else 
-    {
-    quartos[numero - 1] = 1;
-    printf("Reserva realizada para o quarto %d!\n", numero);
-    }
+void inicializarQuartos();
+void reservarQuarto();
+void cancelarReserva();
+void listarQuartos();
+void pedirComida();
+void finalizarfuncao();
 
-    return 0;
-}
-
-// Para cancelar uma reserva
-int cancelarreserva() {
-    int numero;
-    printf("Digite o número do quarto para cancelamento: ");
-    scanf("%d", &numero);
-
-    if (numero < 1 || numero > totalquartos)
-    {
-    printf("Quarto inválido!\n");
-    } 
-    else if (quartos[numero - 1] == 0)
-    {
-    printf("Quarto não está reservado!\n");
-    } 
-    else
-    {
-    quartos[numero - 1] = 0;
-    printf("Reserva do quarto %d foi cancelada!\n", numero);
-    }
-
-    return 0;
-}
-
-// Para exibir o estado dos quartos
-int mostrarquartos() {
-    int i;
-    printf("Estado dos Quartos:\n");
-    for (i = 0; i < totalquartos; i++) {
-        printf("Quarto %d - %s\n", i + 1, quartos[i] ? "Reservado" : "Disponível");
-    }
-    return 0;
-}
-
-// Para função principal
 int main() {
     int opcao;
-    inicializarquartos();
+    inicializarQuartos();
 
     do {
-        printf("Sistema de Reservas do Hotel\n");
-        printf("1. Reservar Quarto\n 2. Cancelar Reserva\n 3. Exibir Quartos\n 4. Sair\n");
+        printf("\n--== Hotel Massaro ==--\n");
+        printf("1 - Reservar Quarto\n");
+        printf("2 - Cancelar Reserva\n");
+        printf("3 - Listar Quartos\n");
+        printf("4 - Pedir Comida\n");
+        printf("0 - Sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
+            
             case 1:
-                reservarquarto();
-                break;
+            reservarQuarto();
+            break;
+            
             case 2:
-                cancelarreserva();
-                break;
+            cancelarReserva();
+            break;
+            
             case 3:
-                mostrarquartos();
-                break;
+            listarQuartos();
+            break;
+            
             case 4:
-                printf("Saindo... Até logo!\n");
-                return 0;
+            pedirComida();
+            break;
+            
+            case 0:
+            printf("Saindo... Obrigado!!\n");
+            break;
+            
             default:
-                printf("Opção inválida! Tente novamente.\n");
+            printf("Opção inválida!\n");
+            break;
         }
-    } while (1);
+    } while (opcao != 0);
 
     return 0;
+}
+
+void inicializarQuartos() {
+    for (int i = 0; i < totalQuartos; i++) {
+        quartos[i].id = i + 1;
+        quartos[i].reservado = 0;
+    }
+}
+
+void reservarQuarto() {
+    int numero;
+    printf("\nDigite o número do quarto para reservar (1-%d): ", totalQuartos);
+    scanf("%d", &numero);
+
+    if (numero < 1 || numero > totalQuartos) 
+    {
+    printf("Quarto inválido!\n");
+    } 
+    else if (quartos[numero - 1].reservado)
+    {
+    printf("O quarto %d já está reservado!\n", numero);
+    }
+    else 
+    {
+    quartos[numero - 1].reservado = 1;
+    printf("Reserva realizada para o quarto %d!\n", numero);
+    }
+
+    finalizarfuncao();
+}
+
+void cancelarReserva() {
+    int numero;
+    printf("Digite o número do quarto para cancelar a reserva: ");
+    scanf("%d", &numero);
+
+    if (numero < 1 || numero > totalQuartos) 
+    {
+    printf("Quarto inválido!\n");
+    } 
+    else if (!quartos[numero - 1].reservado)
+    {
+    printf("O quarto %d não está reservado!\n", numero);
+    }
+    else
+    {
+    quartos[numero - 1].reservado = 0;
+    printf("Reserva do quarto %d foi cancelada!\n", numero);
+    }
+
+    finalizarfuncao();
+}
+
+void listarQuartos() {
+    printf("\n--== Listar Quartos ==--\n");
+
+    for (int i = 0; i < totalQuartos; i++)
+    {
+    printf("Quarto %d - %d\n", quartos[i].id, quartos[i].reservado);
+    }
+
+    finalizarfuncao();
+}
+void pedirComida() {
+    int comida;
+    printf("\n--== Cardápio de Comidas ==--\n");
+    printf("Escolha o que deseja pedir!\n");
+    printf("1 - Salada Caesar\n");
+    printf("2 - Tábua de Frios\n");
+    printf("3 - Filé ao Molho Madeira\n");
+    printf("4 - Lasanha Bolonhesa\n");
+    printf("5 - Água\n");
+    printf("6 - Sucos\n");
+
+    printf("Digite o número do item desejado: ");
+    scanf("%d", &comida);
+
+    if (comida < 1 || comida > 6) 
+    {
+    printf("Opção inválida!!\n");
+    } 
+    else 
+    {
+    printf("Você pediu:\n");
+    switch (comida) {
+            
+            case 1:
+            printf("Salada Caesar\n");
+            break;
+            
+            case 2:
+            printf("Tábua de Frios\n");
+            break;
+            
+            case 3:
+            printf("Filé ao Molho Madeira\n");
+            break;
+            
+            case 4:
+            printf("Lasanha Bolonhesa\n");
+            break;
+            
+            case 5:
+            printf("Água\n");
+            break;
+            
+            case 6:
+            printf("Suco\n");
+            break;
+        }
+        printf("Pedido feito!!\n");
+    }
+
+    finalizarfuncao();
+}
+
+void finalizarfuncao() {
+    system("Clear");
+    printf("\nPressione Enter para continuar...");
+    getchar();
+    getchar();
+    
 }
