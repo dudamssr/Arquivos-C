@@ -1,0 +1,73 @@
+//Biblioteca
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char modelo[30];
+    int ano;
+    float preco; 
+} Veiculo; 
+
+void cadastrarVeiculo(Veiculo *carro1);
+void listarVeiculo(Veiculo carro1);
+void finalizarfuncao();
+
+int main() {
+    int opcao; 
+    Veiculo carro1; 
+    do {
+        printf("\n---==Oficina Massaro---==\n");
+        printf("Selecione a opcao desejada: \n");
+        printf("1 - Cadastrar Veiculo\n");
+        printf("2 - Listar Veiculo\n");
+        printf("0 - Sair\n");
+        scanf("%d", &opcao);
+        getchar(); 
+
+        switch(opcao) {
+            
+            case 1:
+            cadastrarVeiculo(&carro1);
+            break;
+            
+            case 2:
+            listarVeiculo(carro1);
+            break;
+            
+            case 0:
+            finalizarfuncao();
+            break;
+            
+            default:
+            printf("Opcao invalida! Tente novamente.\n");
+            break;
+        }
+    } while (opcao != 0);
+
+    return 0;
+}
+
+void cadastrarVeiculo(Veiculo *carro1) {
+    printf("Digite o modelo do carro:\n ");
+    scanf("%[^\n]", carro1->modelo); 
+
+    printf("Digite o ano do carro:\n ");
+    scanf("%d", &carro1->ano); 
+
+    printf("Digite o preco do carro:\n "); 
+    scanf("%f", &carro1->preco); 
+}
+
+void listarVeiculo(Veiculo carro1) {
+    printf("Modelo: %s\n", carro1.modelo);
+    printf("Ano: %d\n", carro1.ano);
+    printf("Preco: %.2f\n", carro1.preco); 
+}
+
+void finalizarfuncao() {
+    printf("Saindo...\n");
+    getchar(); 
+    getchar(); 
+    system("clear"); 
+}
